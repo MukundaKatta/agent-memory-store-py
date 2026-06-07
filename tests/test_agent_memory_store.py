@@ -160,6 +160,27 @@ def test_keys_insertion_order():
     assert store.keys() == ["z", "a", "m"]
 
 
+def test_overwrite_preserves_insertion_order():
+    # Re-setting an existing key must NOT move it to the end; the original
+    # insertion position is preserved, matching dict / OrderedDict semantics.
+    store = MemoryStore()
+    store.set("a", "1")
+    store.set("b", "2")
+    store.set("c", "3")
+    store.set("a", "updated")
+    assert store.keys() == ["a", "b", "c"]
+    assert store.get("a") == "updated"
+
+
+def test_update_preserves_insertion_order():
+    store = MemoryStore()
+    store.set("a", "1")
+    store.set("b", "2")
+    store.update({"a": "updated", "c": "3"})
+    assert store.keys() == ["a", "b", "c"]
+    assert store.get("a") == "updated"
+
+
 def test_values():
     store = MemoryStore()
     store.set("a", "1")

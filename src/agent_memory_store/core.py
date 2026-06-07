@@ -78,7 +78,6 @@ class MemoryStore:
         if not isinstance(value, str):
             raise TypeError(f"Value must be a str, got {type(value).__name__!r}.")
         self._store[key] = value
-        self._store.move_to_end(key)
 
     def __getitem__(self, key: str) -> str:
         return self._store[key]
